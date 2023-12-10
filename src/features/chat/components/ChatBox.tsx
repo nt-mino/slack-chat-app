@@ -13,9 +13,9 @@ export default function ChatBox() {
 
   return (
     <form action={createChat}>
-      <div className="relative">
-        <Textarea name="chat" className="min-h-[50px] max-h-[300px] h-full resize-none text-[16px] border-gray-500 pr-10" />
-        <Button className="absolute bottom-0 right-0 mb-2 mr-2 px-2 py-2">
+      <div className="flex flex-row gap-4">
+        <Textarea name="chat" className="min-h-[30px] max-h-[300px] h-full resize-none text-[16px] border-gray-500" rows={1} />
+        <Button type="submit" className="mb-2 mr-2 px-2 py-2">
           <SendHorizontal size={20} strokeWidth={2} />
         </Button>
       </div>

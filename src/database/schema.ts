@@ -2,6 +2,9 @@ import { mysqlTable, primaryKey, text, timestamp, varchar } from "drizzle-orm/my
 import { createId } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
 
+// DROP TABLE users,channels,channelMembers,messages;
+
+// ✨ ユーザー情報テーブル
 export const users = mysqlTable("users", {
   id: varchar("id", { length: 36 })
     .primaryKey()
@@ -16,12 +19,13 @@ export const usersRelations = relations(users, ({ many }) => ({
   channelMembers: many(channelMembers),
 }));
 
+// ✨ チャンネル情報テーブル
 export const channels = mysqlTable("channels", {
-  id: varchar("id", { length: 10 })
+  id: varchar("id", { length: 36 })
     .primaryKey()
     .notNull()
     .$defaultFn(() => createId()),
-  ownerId: varchar("ownerId", { length: 36 }),
+  ownerId: varchar("ownerId", { length: 36 }).notNull(),
   name: text("name").notNull(),
   description: text("description"),
   createdAt: timestamp("createdAt").defaultNow(),
@@ -35,10 +39,11 @@ export const channelsRelations = relations(channels, ({ one, many }) => ({
   channelMembers: many(channelMembers),
 }));
 
+// ✨ チャンネルメンバー情報テーブル
 export const channelMembers = mysqlTable(
   "channelMembers",
   {
-    channelId: varchar("channelId", { length: 10 }),
+    channelId: varchar("channelId", { length: 36 }),
     userId: varchar("userId", { length: 36 }),
     createdAt: timestamp("createdAt").defaultNow(),
   },
@@ -57,12 +62,13 @@ export const channelMembersRelations = relations(channelMembers, ({ one }) => ({
   }),
 }));
 
+// ✨ メッセージ情報テーブル
 export const messages = mysqlTable("messages", {
   id: varchar("id", { length: 36 })
     .primaryKey()
     .notNull()
     .$defaultFn(() => createId()),
-  channelId: varchar("channelId", { length: 10 }),
+  channelId: varchar("channelId", { length: 36 }),
   userId: varchar("userId", { length: 36 }),
   content: text("content").notNull(),
   createdAt: timestamp("createdAt").defaultNow(),

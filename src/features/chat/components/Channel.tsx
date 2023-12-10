@@ -7,23 +7,40 @@ import { Button } from "@/features/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/features/ui/dialog";
 import { useParams, useRouter } from "next/navigation";
 import { Input } from "@/features/ui/input";
+import useSWRImmutable from "swr/immutable";
+import { fetcher } from "@/utils/swr";
+import { SelectChannel } from "@/database/helper";
+import { Skeleton } from "@/features/ui/skeleton";
+import { mutate } from "swr";
+
+interface ApiResponse {
+  channels: SelectChannel[];
+}
 
 export default function Channel() {
+  const userId = "xod56wl4sd4q3j4imh23ox3m";
   const params = useParams();
+
+  const { data: dateChannel } = useSWRImmutable<ApiResponse>("/api/chat/channel/", fetcher);
+  const channels = dateChannel?.channels;
+
   const [isLoading, setIsLoading] = useState(false);
   const [newChannelName, setNewChannelName] = useState("");
   const [openChannel, setOpenChannel] = useState(true);
 
-  const channelList = [
-    { id: "567899870", name: "チャンネル1" },
-    { id: "567897456", name: "チャンネル2" },
-    { id: "456789098", name: "チャンネル3" },
-  ];
-
   const createChannel = async () => {
     try {
       setIsLoading(true);
-
+      const res = await fetch("/api/chat/channel", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ownerId: userId,
+          channelName: newChannelName,
+        }),
+      });
+      if (res.status !== 200) throw new Error("チャンネルの作成に失敗しました");
+      mutate("/api/chat/channel/", undefined, true);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -41,16 +58,20 @@ export default function Channel() {
           </div>
           {openChannel && (
             <div className="flex flex-col gap-1 px-4">
-              {channelList.map((channel, index) => {
-                return (
-                  <Link key={`channel${index}`} href={`/chat/${channel.id}`}>
-                    <div className={`flex flex-row items-center gap-4 mt-2 hover:text-amber-500 ${params.channel === channel.id ? "text-amber-500" : "foreground"}`}>
-                      <p className={"text-[15px] pl-1"}>#</p>
-                      <p className={"text-[15px]"}>{channel.name}</p>
-                    </div>
-                  </Link>
-                );
-              })}
+              {!channels ? (
+                <Skeleton className="h-4 w-full rounded-sm  bg-gray-300" />
+              ) : (
+                channels.map((channel, index) => {
+                  return (
+                    <Link key={`channel${index}`} href={`/chat/${channel.id}`}>
+                      <div className={`flex flex-row items-center gap-2 mt-2 hover:text-amber-500 ${params.channel === channel.id ? "text-amber-500" : "foreground"}`}>
+                        <p className={"text-[15px] pl-1"}>#</p>
+                        <p className={"text-[15px]"}>{channel.name}</p>
+                      </div>
+                    </Link>
+                  );
+                })
+              )}
               {/* チャンネルの作成 */}
               <div className="mt-2">
                 <Dialog>

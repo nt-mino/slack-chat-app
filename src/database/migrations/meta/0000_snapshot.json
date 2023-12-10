@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "4f1ebe06-ab3f-46bb-a881-52b8f032fc7f",
+  "id": "fe5aeeac-b5d0-4fa5-8044-f9e090661007",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "channelMembers": {
@@ -9,7 +9,7 @@
       "columns": {
         "channelId": {
           "name": "channelId",
-          "type": "varchar(10)",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -48,7 +48,7 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(10)",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -57,7 +57,7 @@
           "name": "ownerId",
           "type": "varchar(36)",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "autoincrement": false
         },
         "name": {
@@ -107,7 +107,7 @@
         },
         "channelId": {
           "name": "channelId",
-          "type": "varchar(10)",
+          "type": "varchar(36)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
