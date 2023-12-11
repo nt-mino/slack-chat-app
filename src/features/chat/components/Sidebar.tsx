@@ -9,8 +9,8 @@ export default function Sidebar() {
   const pathname = usePathname();
   const sidebarItems = [
     { name: "ホーム", link: "/chat", icon: <Home color="background" size={24} strokeWidth={1.5} /> },
-    { name: "DM", link: "/chat/dm", icon: <MessagesSquare color="background" size={24} strokeWidth={1.5} /> },
-    { name: "設定", link: "/chat/setting", icon: <Settings color="background" size={24} strokeWidth={1.5} /> },
+    { name: "DM", link: "/dm", icon: <MessagesSquare color="background" size={24} strokeWidth={1.5} /> },
+    { name: "設定", link: "/setting", icon: <Settings color="background" size={24} strokeWidth={1.5} /> },
   ];
   return (
     <div className="flex-none w-[80px] h-full bg-primary">
@@ -28,7 +28,7 @@ export default function Sidebar() {
           ))}
         </div>
         <div>
-          <Avatar>
+          <Avatar className="rounded-sm">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>

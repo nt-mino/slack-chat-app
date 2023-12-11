@@ -5,9 +5,7 @@ export default function ChatLayout({ children }: { children: React.ReactNode }) 
     <div className="w-full h-screen flex flex-row">
       {/* サイドバー */}
       <Sidebar />
-      {/* チャンネルリスト */}
-      <Channel />
-      <div className="w-full">{children}</div>
+      <div className="w-full h-full">{children}</div>
     </div>
   );
 }

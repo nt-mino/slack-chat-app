@@ -2,8 +2,6 @@ import { mysqlTable, primaryKey, text, timestamp, varchar } from "drizzle-orm/my
 import { createId } from "@paralleldrive/cuid2";
 import { relations } from "drizzle-orm";
 
-// DROP TABLE users,channels,channelMembers,messages;
-
 // ✨ ユーザー情報テーブル
 export const users = mysqlTable("users", {
   id: varchar("id", { length: 36 })

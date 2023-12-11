@@ -4,11 +4,9 @@ import * as schema from "./schema";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set");
-}
-
 const connection = connect({
-  url: process.env.DATABASE_URL as string,
+  host: process.env.DATABASE_HOST,
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
 });
 export const db = drizzle(connection, { schema });
