@@ -12,6 +12,7 @@ import { fetcher } from "@/utils/swr";
 import { SelectChannel } from "@/database/helper";
 import { Skeleton } from "@/features/ui/skeleton";
 import { mutate } from "swr";
+import { Avatar, AvatarFallback, AvatarImage } from "@/features/ui/avatar";
 
 interface ApiResponse {
   channels: SelectChannel[];
@@ -27,6 +28,7 @@ export default function Channel() {
   const [isLoading, setIsLoading] = useState(false);
   const [newChannelName, setNewChannelName] = useState("");
   const [openChannel, setOpenChannel] = useState(true);
+  const [openMember, setOpenMember] = useState(true);
 
   const createChannel = async () => {
     try {
@@ -49,7 +51,8 @@ export default function Channel() {
 
   return (
     <div className="flex-none w-[250px] h-full bg-primary-foreground border-r-[1px]">
-      <div className="flex flex-col py-4 px-4">
+      <div className="flex flex-col gap-8 py-4 px-4">
+        {/* チャンネル */}
         <div className="flex flex-col">
           <div className="flex flex-row items-center gap-4 mb-2">
             {!openChannel && <ChevronRight size={20} strokeWidth={2} cursor={"pointer"} onClick={() => setOpenChannel(true)} />}
@@ -107,6 +110,31 @@ export default function Channel() {
                   </DialogContent>
                 </Dialog>
               </div>
+            </div>
+          )}
+        </div>
+        {/* 登録メンバー */}
+        <div className="flex flex-col">
+          <div className="flex flex-row items-center gap-4 mb-2">
+            {!openMember && <ChevronRight size={20} strokeWidth={2} cursor={"pointer"} onClick={() => setOpenMember(true)} />}
+            {openMember && <ChevronDown size={20} strokeWidth={2} cursor={"pointer"} onClick={() => setOpenMember(false)} />}
+            <p className="text-[15px]">参加メンバー</p>
+          </div>
+          {openMember && (
+            <div className="flex flex-col gap-1 px-4">
+              {false ? (
+                <Skeleton className="h-4 w-full rounded-sm  bg-gray-300" />
+              ) : (
+                <div className={`flex flex-row items-center gap-2 mt-2`}>
+                  <div>
+                    <Avatar className="w-[25px] h-[25px] rounded-sm">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <p className={"text-[15px]"}>{"みのる"}</p>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -4,4 +4,4 @@
 ・supabase（auth）
 ・clerk（auth）
 
-https://clerk.com/docs/references/nextjs/auth
+https://zenn.dev/hayato94087/articles/bfe72f794e0407

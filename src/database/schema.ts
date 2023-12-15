@@ -9,7 +9,7 @@ export const users = mysqlTable("users", {
     .notNull()
     .$defaultFn(() => createId()),
   email: text("email").notNull(),
-  name: text("name").notNull(),
+  name: text("name"),
   avatar: text("avatar"),
   createdAt: timestamp("createdAt").defaultNow(),
 });

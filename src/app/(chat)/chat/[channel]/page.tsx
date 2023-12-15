@@ -2,15 +2,16 @@ import { getChannel, getMessage } from "@/app/actions";
 import { ChatBox } from "@/features/chat/components";
 import { Avatar, AvatarFallback, AvatarImage } from "@/features/ui/avatar";
 import { convertTimestampToDate } from "@/utils/time";
+import { currentUser } from "@clerk/nextjs";
 
 export default async function ChannelPage({ params }: { params: { channel: string } }) {
+  const user = await currentUser();
+  console.log("user:", user);
   const userId = "xod56wl4sd4q3j4imh23ox3m";
   const { channel } = params;
   const channelData = await getChannel(channel);
   const channels = channelData.channels;
   const messagesData = await getMessage(channel);
-
-  console.log(messagesData.messages);
 
   return (
     <div className="w-full pt-8 py-4 flex flex-col" style={{ height: "calc(100vh - 70px)" }}>
