@@ -4,7 +4,10 @@ import { createChat } from "@/app/actions";
 import { messages } from "@/database/schema";
 import { Button } from "@/features/ui/button";
 import { Textarea } from "@/features/ui/textarea";
+import { useSocket } from "@/lib/provider/socket-provider";
 import { SendHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
+import { io } from "socket.io-client";
 
 interface Props {
   userId: string;
@@ -12,6 +15,9 @@ interface Props {
 }
 
 export default function ChatBox({ userId, channelId }: Props) {
+  const { socket } = useSocket();
+  const [isConnectedSocket, setIsConnectedSocket] = useState(false);
+
   return (
     <form
       onSubmit={async e => {
